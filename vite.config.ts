@@ -9,6 +9,8 @@ export default defineConfig({
     allowedHosts: [
       "https://notes.shahzebabro.com",
       "https://www.notes.shahzebabro.com",
+      "notes.shahzebabro.com",
+      "www.notes.shahzebabro.com",
     ],
     port: 3002,
   },
