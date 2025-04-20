@@ -2,7 +2,14 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ForgotPassword, Login, SignUp } from "../modules/public/auth";
 import ROUTES from "../constants/routes";
 import { ResetPassword } from "../modules/public/auth/resetPassword";
-import { Archive, Notes, Search, Settings, Tags } from "../modules/private";
+import {
+  Archive,
+  CreateNote,
+  Notes,
+  Search,
+  Settings,
+  Tags,
+} from "../modules/private";
 import { DashborardLayout } from "../layout/dashboardLayout";
 import {
   FontSettings,
@@ -26,6 +33,7 @@ export const AppRouter = () => {
           />
           <Route path={ROUTES.SEARCH} element={<Search />} />
           <Route path={ROUTES.TAGS} element={<Tags />} />
+          <Route path={ROUTES.CREATE_NOTE} element={<CreateNote />} />
         </Route>
 
         <Route path={ROUTES.HOME} element={<Notes />} />

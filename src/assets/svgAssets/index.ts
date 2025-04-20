@@ -18,6 +18,9 @@ import { SansSerifIcon } from "./SansSerifIcon";
 import { MonoSpaceIcon } from "./MonoSpaceIcon";
 import { MoonIcon } from "./MoonIcon";
 import { SystemThemeIcon } from "./SystemThemeIcon";
+import { PlusIcon } from "./PlusIcon";
+import { ClockIcon } from "./ClockIcon";
+import { ArrowLeftIcon } from "./ArrowLeftIcon";
 
 export {
   Logo,
@@ -40,4 +43,7 @@ export {
   MonoSpaceIcon,
   MoonIcon,
   SystemThemeIcon,
+  PlusIcon,
+  ClockIcon,
+  ArrowLeftIcon,
 };

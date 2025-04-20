@@ -11,6 +11,7 @@ const ROUTES = {
   PASSWORD_SETTINGS: "/settings/password",
   SEARCH: "/search",
   TAGS: "/tags",
+  CREATE_NOTE: "/create",
 };
 
 export default ROUTES;
