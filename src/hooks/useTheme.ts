@@ -8,6 +8,10 @@ export default function useTheme() {
   useEffect(() => {
     document.documentElement.className = theme;
     localStorage.setItem("theme", theme);
+    const body = document.querySelector("body");
+    if (body) {
+      body.className = theme === "dark" ? "dark" : "light";
+    }
   }, [theme]);
 
   const toggleTheme = () => {

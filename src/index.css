@@ -101,6 +101,7 @@
   --text-preset-5--letter-spacing: -0.5px;
 
   --color-surface: var(--color-blue-50);
+  --color-surface-2: var(--color-neutral-0);
 
   /* Box shadow  */
   --shadow-lg: 0px 8px 12px 0px rgba(240, 240, 240, 0.6);
@@ -112,12 +113,9 @@
 
 body.dark {
   --color-surface: var(--color-neutral-700);
+  --color-surface-2: #0e121b;
   --color-primary-text: var(--color-neutral-0);
-  --color-secondary-text: var(--color-neutral-400);
+  --color-secondary-text: var(--color-neutral-200);
   --shadow-lg: none;
   --shadow-sm: none;
-}
-
-body {
-  font-family: var(--font-inter), sans-serif;
 }

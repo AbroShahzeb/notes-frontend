@@ -6,7 +6,6 @@ import {
   Logo,
 } from "../../../../assets/svgAssets";
 import { Input } from "../../../../components";
-import useTheme from "../../../../hooks/useTheme";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { loginSchema, LoginSchema } from "../../../../schema/loginSchema";
@@ -15,8 +14,6 @@ import { Button } from "../../../../components/button";
 import ROUTES from "../../../../constants/routes";
 
 export const Login = () => {
-  const { theme } = useTheme();
-
   const {
     register,
     handleSubmit,
@@ -41,8 +38,8 @@ export const Login = () => {
   return (
     <main className="w-full bg-surface min-h-screen flex items-center justify-center py-16 px-4 sm:px-0">
       <div className="px-4 w-full p-12 sm:px-12 bg-neutral-0 dark:bg-neutral-950 dark:border-neutral-800 max-w-[540px]  flex flex-col gap-4 border border-neutral-200 rounded-xl shadow-lg dark:shadow-none">
-        <div className="flex justify-center">
-          <Logo variant={theme === "dark" ? "dark" : "light"} />
+        <div className="flex justify-center text-primary-text">
+          <Logo />
         </div>
 
         <div className="flex flex-col gap-2 items-center text-center">
@@ -66,19 +63,14 @@ export const Login = () => {
           />
           <Input
             postIcon={
-              <span onClick={() => setIsPasswordVisible((prev) => !prev)}>
+              <span
+                className="text-primary-text"
+                onClick={() => setIsPasswordVisible((prev) => !prev)}
+              >
                 {isPasswordVisible ? (
-                  <EyeOpen
-                    width={20}
-                    height={20}
-                    color={theme === "dark" ? "#f3f5f8" : "#0E121B"}
-                  />
+                  <EyeOpen width={20} height={20} />
                 ) : (
-                  <EyeClose
-                    width={20}
-                    height={20}
-                    color={theme === "dark" ? "#f3f5f8" : "#0E121B"}
-                  />
+                  <EyeClose width={20} height={20} />
                 )}
               </span>
             }
@@ -98,8 +90,8 @@ export const Login = () => {
         <div className="mt-4 pt-6 border-t border-neutral-200 dark:border-neutral-800 flex flex-col items-center gap-4">
           <p className="text-preset-4 text-secondary-text">Or Log in with:</p>
           <div className="py-4 px-5 flex items-center justify-center h-12 rounded-xl border border-neutral-300 dark:border-neutral-600 self-stretch">
-            <span>
-              <GoogleIcon color={theme === "dark" ? "#fff" : "#0E121B"} />
+            <span className="text-primary-text">
+              <GoogleIcon />
             </span>
             <span className="px-4 text-primary-text">Google</span>
           </div>

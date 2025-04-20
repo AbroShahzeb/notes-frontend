@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { EyeClose, EyeOpen, Logo } from "../../../../assets/svgAssets";
 import { Input } from "../../../../components";
-import useTheme from "../../../../hooks/useTheme";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../../../../components/button";
@@ -11,8 +10,6 @@ import {
 } from "../../../../schema/resetPasswordSchema";
 
 export const ResetPassword = () => {
-  const { theme } = useTheme();
-
   const {
     register,
     handleSubmit,
@@ -39,8 +36,8 @@ export const ResetPassword = () => {
   return (
     <main className="w-full bg-surface min-h-screen flex items-center justify-center py-16 px-4 sm:px-0">
       <div className="px-4 w-full p-12 sm:px-12 bg-neutral-0 dark:bg-neutral-950 dark:border-neutral-800 max-w-[540px]  flex flex-col gap-4 border border-neutral-200 rounded-xl shadow-lg dark:shadow-none">
-        <div className="flex justify-center">
-          <Logo variant={theme === "dark" ? "dark" : "light"} />
+        <div className="flex justify-center text-primary-text">
+          <Logo />
         </div>
 
         <div className="flex flex-col gap-2 items-center text-center">
@@ -58,19 +55,14 @@ export const ResetPassword = () => {
         >
           <Input
             postIcon={
-              <span onClick={() => setIsPasswordVisible((prev) => !prev)}>
+              <span
+                className="text-primary-text"
+                onClick={() => setIsPasswordVisible((prev) => !prev)}
+              >
                 {isPasswordVisible ? (
-                  <EyeOpen
-                    width={20}
-                    height={20}
-                    color={theme === "dark" ? "#f3f5f8" : "#0E121B"}
-                  />
+                  <EyeOpen width={20} height={20} />
                 ) : (
-                  <EyeClose
-                    width={20}
-                    height={20}
-                    color={theme === "dark" ? "#f3f5f8" : "#0E121B"}
-                  />
+                  <EyeClose width={20} height={20} />
                 )}
               </span>
             }
@@ -84,22 +76,15 @@ export const ResetPassword = () => {
           <Input
             postIcon={
               <span
+                className="text-primary-text"
                 onClick={() =>
                   setIsPasswordConfirmationVisible((prev) => !prev)
                 }
               >
                 {isPasswordVisible ? (
-                  <EyeOpen
-                    width={20}
-                    height={20}
-                    color={theme === "dark" ? "#f3f5f8" : "#0E121B"}
-                  />
+                  <EyeOpen width={20} height={20} />
                 ) : (
-                  <EyeClose
-                    width={20}
-                    height={20}
-                    color={theme === "dark" ? "#f3f5f8" : "#0E121B"}
-                  />
+                  <EyeClose width={20} height={20} />
                 )}
               </span>
             }

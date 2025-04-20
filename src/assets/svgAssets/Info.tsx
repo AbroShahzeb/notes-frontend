@@ -1,14 +1,9 @@
 interface Props {
   width?: number;
   height?: number;
-  color?: string;
 }
 
-export const InfoIcon = ({
-  width = 24,
-  height = 24,
-  color = "#0E121B",
-}: Props) => {
+export const InfoIcon = ({ width = 24, height = 24 }: Props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -18,7 +13,7 @@ export const InfoIcon = ({
       viewBox="0 0 24 24"
     >
       <path
-        stroke={color}
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.5"

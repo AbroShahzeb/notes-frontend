@@ -52,18 +52,16 @@ export const Input = ({
 
       <div>
         {hint && (
-          <div className="flex items-center gap-2">
-            {hintIcon || <InfoIcon width={16} height={16} color="#525866" />}
-            <span className="text-preset-5 text-neutral-600">
-              {hint && hint}
-            </span>
+          <div className="flex items-center gap-2 text-neutral-600">
+            {hintIcon || <InfoIcon width={16} height={16} />}
+            <span className="text-preset-5 ">{hint && hint}</span>
           </div>
         )}
 
         {error && (
-          <div className="flex items-center gap-2">
-            {<InfoIcon width={16} height={16} color="#fb3748" />}
-            <span className="text-preset-5 text-red-500">{error && error}</span>
+          <div className="flex items-center gap-2 text-red-500">
+            {<InfoIcon width={16} height={16} />}
+            <span className="text-preset-5 ">{error && error}</span>
           </div>
         )}
       </div>

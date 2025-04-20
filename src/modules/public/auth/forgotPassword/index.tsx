@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Input } from "../../../../components";
-import useTheme from "../../../../hooks/useTheme";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../../../../components/button";
@@ -11,8 +10,6 @@ import {
 import { Logo } from "../../../../assets/svgAssets";
 
 export const ForgotPassword = () => {
-  const { theme } = useTheme();
-
   const {
     register,
     handleSubmit,
@@ -35,8 +32,8 @@ export const ForgotPassword = () => {
   return (
     <main className="w-full bg-surface min-h-screen flex items-center justify-center py-16 px-4 sm:px-0">
       <div className="px-4 w-full p-12 sm:px-12 bg-neutral-0 dark:bg-neutral-950 dark:border-neutral-800 max-w-[540px]  flex flex-col gap-4 border border-neutral-200 rounded-xl shadow-lg dark:shadow-none">
-        <div className="flex justify-center">
-          <Logo variant={theme === "dark" ? "dark" : "light"} />
+        <div className="flex justify-center text-primary-text">
+          <Logo />
         </div>
 
         <div className="flex flex-col gap-2 items-center text-center">
