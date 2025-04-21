@@ -12,6 +12,8 @@ const ROUTES = {
   SEARCH: "/search",
   TAGS: "/tags",
   CREATE_NOTE: "/create",
+  NOTE_DETAILS: "/notes/:id",
+  NOTE_DETAILS_LINK: (id: string) => `/notes/${id}`,
 };
 
 export default ROUTES;

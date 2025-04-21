@@ -1,8 +1,23 @@
 import { PageHeader } from "../../../layout/components/pageHeader";
-import { Button } from "../../../components";
+import { NotesLeftMenu } from "../../../components";
 import { NoteForm } from "./components";
+import { useParams } from "react-router-dom";
+import notes from "../../../data";
+import { useEffect, useState } from "react";
 
-export const CreateNote = () => {
+interface Props {
+  isEdit?: boolean;
+}
+
+export const CreateNote = ({ isEdit = false }: Props) => {
+  const { id } = useParams();
+  const [note, setNote] = useState<Note>();
+
+  useEffect(() => {
+    const filteredNote: Note = notes.filter((note: Note) => note.id === id)[0];
+    setNote(filteredNote);
+  }, [id]);
+
   return (
     <main className="w-full flex-1 max-h-dvh h-full  bg-surface-2  min-h-dvh">
       <div>
@@ -10,19 +25,13 @@ export const CreateNote = () => {
       </div>
       <div className="flex-1 flex h-[calc(100vh-81px-44px)] sm:h-[calc(100vh-81px-74px)] lg:h-[calc(100vh-81px)]">
         {/* Left Bar  */}
-        <div className="px-4 hidden lg:block lg:w-[291px] lg:pl-8 lg:h-full pt-5 lg:border-r border-neutral-200 dark:border-neutral-800">
-          <div className="flex flex-col gap-4 ">
-            <Button label="+ Create New Note" className="hidden lg:flex" />
-            <div className="p-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 text-primary-text text-preset-4">
-              You don’t have any notes yet. Start a new note to capture your
-              thoughts and ideas.
-            </div>
-          </div>
+        <div className="hidden lg:block">
+          <NotesLeftMenu archived={note?.isArchived} />
         </div>
 
         {/* Create Form  */}
         <div className="flex-1 text-primary-text">
-          <NoteForm />
+          <NoteForm isEdit={isEdit} note={note} />
         </div>
 
         {/* Right Bar  */}

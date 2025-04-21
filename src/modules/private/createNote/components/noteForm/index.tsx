@@ -8,8 +8,14 @@ import { Button } from "../../../../../components";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NoteSchema, noteSchema } from "../../../../../schema/noteSchema";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
-export const NoteForm = () => {
+interface Props {
+  isEdit?: boolean;
+  note?: Note | null;
+}
+
+export const NoteForm = ({ isEdit = false, note = null }: Props) => {
   const { register, handleSubmit, reset } = useForm<NoteSchema>({
     defaultValues: {
       title: "Enter a title...",
@@ -18,6 +24,17 @@ export const NoteForm = () => {
     },
     resolver: zodResolver(noteSchema),
   });
+
+  useEffect(() => {
+    console.log("isedit", isEdit, "note", note);
+    if (isEdit && note) {
+      reset({
+        title: note?.title,
+        content: note?.content,
+        tags: note?.tags.join(", "),
+      });
+    }
+  }, [note, reset, isEdit]);
 
   const onSubmit = (data: NoteSchema) => {
     console.log("Data", data);

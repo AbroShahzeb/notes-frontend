@@ -18,7 +18,7 @@ export const PageHeader = ({ title, isLargeHidden = false }: Props) => {
       <div className="flex rounded-t-2xl lg:rounded-none bg-surface-2 items-center justify-between lg:h-[81px]  p-4 pb-0 lg:py-8 lg:px-8 lg:border-b border-neutral-200 dark:border-neutral-800">
         <h1
           className={`text-2xl font-bold text-primary-text dark:text-white ${
-            isLargeHidden && "hidden"
+            isLargeHidden && "hidden lg:block"
           }`}
         >
           {title}

@@ -22,7 +22,12 @@ export const AppRouter = () => {
     <BrowserRouter>
       <Routes>
         <Route path={ROUTES.HOME} element={<DashborardLayout />}>
-          <Route index path="" element={<Notes />} />
+          <Route path={ROUTES.HOME} element={<Notes />} />
+          <Route
+            path={ROUTES.CREATE_NOTE}
+            element={<CreateNote isEdit={false} />}
+          />
+          <Route path={ROUTES.NOTE_DETAILS} element={<CreateNote isEdit />} />
           <Route path={ROUTES.ARCHIVE} element={<Archive />} />
           <Route path={ROUTES.SETTINGS} element={<Settings />} />
           <Route path={ROUTES.COLOR_SETTINGS} element={<ThemeSettings />} />
@@ -33,10 +38,8 @@ export const AppRouter = () => {
           />
           <Route path={ROUTES.SEARCH} element={<Search />} />
           <Route path={ROUTES.TAGS} element={<Tags />} />
-          <Route path={ROUTES.CREATE_NOTE} element={<CreateNote />} />
         </Route>
 
-        <Route path={ROUTES.HOME} element={<Notes />} />
         <Route path={ROUTES.SIGNIN} element={<Login />} />
         <Route path={ROUTES.SIGNUP} element={<SignUp />} />
         <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPassword />} />
