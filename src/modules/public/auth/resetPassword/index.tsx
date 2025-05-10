@@ -7,9 +7,21 @@ import { Button } from "../../../../components/button";
 import {
   resetPasswordSchema,
   ResetPasswordSchema,
-} from "../../../../schema/resetPasswordSchema";
+} from "../../../../lib/validations";
+import { useMutation } from "@tanstack/react-query";
+import { resetPassword } from "../../../../api/auth";
+import ROUTES from "../../../../constants/routes";
+import { errorToast, successToast } from "../../../../components/ui/toast";
+import { useNavigate, useParams } from "react-router-dom";
+import { AxiosError } from "axios";
+
+interface ErrorResponse {
+  message: string;
+}
 
 export const ResetPassword = () => {
+  const { token } = useParams();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -22,8 +34,22 @@ export const ResetPassword = () => {
     resolver: zodResolver(resetPasswordSchema),
   });
 
+  const { mutate: resetPasswordMutation, isPending } = useMutation({
+    mutationFn: resetPassword,
+    onSuccess: (data) => {
+      console.log("Data", data);
+      successToast("Success", data.message);
+      navigate(ROUTES.SIGNIN);
+    },
+    onError: (err: AxiosError<ErrorResponse>) => {
+      errorToast("Error", err?.response?.data?.message || "An error occurred");
+    },
+  });
+
   const onSubmit = (data: ResetPasswordSchema) => {
-    console.log(data);
+    if (token) {
+      resetPasswordMutation({ ...data, token });
+    }
   };
 
   useEffect(() => {
@@ -93,7 +119,11 @@ export const ResetPassword = () => {
             error={errors.passwordConfirmation?.message}
             registerProps={register("passwordConfirmation")}
           />
-          <Button type="submit" label="Reset Password" />
+          <Button
+            type="submit"
+            label={isPending ? "Resetting password..." : "Reset Password"}
+            disabled={isPending}
+          />
         </form>
       </div>
     </main>

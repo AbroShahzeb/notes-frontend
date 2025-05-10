@@ -6,28 +6,55 @@ import {
   Logo,
 } from "../../../../assets/svgAssets";
 import { Input } from "../../../../components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../../../../components/button";
 import ROUTES from "../../../../constants/routes";
-import { signUpSchema, SignUpSchema } from "../../../../schema/signUpSchema";
+import { signUpSchema, SignUpSchema } from "../../../../lib/validations";
+import { useMutation } from "@tanstack/react-query";
+import { registerUser } from "../../../../api/auth";
+import { errorToast, successToast } from "../../../../components/ui/toast";
+import { AxiosError } from "axios";
+
+interface ErrorResponse {
+  message: string;
+}
 
 export const SignUp = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignUpSchema>({
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
     resolver: zodResolver(signUpSchema),
   });
 
+  const { mutate: registerAccount, isPending } = useMutation({
+    mutationFn: registerUser,
+    onSuccess: (data) => {
+      console.log("Data", data);
+      successToast("Success", "User registered successfully");
+      localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("user", JSON.stringify(data.data.user));
+      navigate(ROUTES.HOME);
+    },
+    onError: (err: AxiosError<ErrorResponse>) => {
+      errorToast(
+        "Error",
+        err?.response?.data?.message || "Failed to register user"
+      );
+    },
+  });
+
   const onSubmit = (data: SignUpSchema) => {
-    console.log(data);
+    registerAccount(data);
   };
 
   useEffect(() => {
@@ -56,6 +83,12 @@ export const SignUp = () => {
           className="flex flex-col gap-4 pt-6"
         >
           <Input
+            placeholder="John Doe"
+            label="Name"
+            registerProps={register("name")}
+            error={errors.name?.message}
+          />
+          <Input
             placeholder="email@@example.com"
             label="Email Address"
             registerProps={register("email")}
@@ -80,7 +113,10 @@ export const SignUp = () => {
             registerProps={register("password")}
             hint={errors.password?.message ? "" : "At least 8 characters"}
           />
-          <Button type="submit" label="Sign up" />
+          <Button
+            type="submit"
+            label={isPending ? "Signing up..." : "Sign up"}
+          />
         </form>
 
         <div className="mt-4 pt-6 border-t border-neutral-200 dark:border-neutral-800 flex flex-col items-center gap-4">

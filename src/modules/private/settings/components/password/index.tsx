@@ -1,10 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Button } from "../../../../../components/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  ChangePasswordSchema,
-  changePasswordSchema,
-} from "../../../../../schema/changePasswordSchema";
+
 import { Input } from "../../../../../components";
 import { EyeClose, EyeOpen, LogoutIcon } from "../../../../../assets/svgAssets";
 import { useState } from "react";
@@ -12,6 +9,10 @@ import { Links } from "../links";
 import { Link } from "react-router-dom";
 import { PageHeader } from "../../../../../layout/components/pageHeader";
 import ROUTES from "../../../../../constants/routes";
+import {
+  changePasswordSchema,
+  ChangePasswordSchema,
+} from "../../../../../lib/validations";
 
 export const PasswordSettings = () => {
   const {
@@ -36,7 +37,7 @@ export const PasswordSettings = () => {
     console.log(data);
   };
   return (
-    <div className="w-full flex-1 max-h-dvh h-full bg-surface-2 ">
+    <div className="w-full flex-1 max-h-dvh h-full bg-surface-2">
       <PageHeader title="Settings" />
       <div className="flex flex-1 h-[calc(100vh-81px)]">
         <div className="hidden pl-8 py-5 pr-4 border-r border-neutral-200 dark:border-neutral-800 lg:flex flex-col gap-2 w-[260px] h-full">

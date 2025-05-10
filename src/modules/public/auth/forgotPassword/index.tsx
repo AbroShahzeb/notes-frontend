@@ -6,14 +6,24 @@ import { Button } from "../../../../components/button";
 import {
   ForgotPasswordSchema,
   forgotPasswordSchema,
-} from "../../../../schema/forgotPasswordSchema";
+} from "../../../../lib/validations";
 import { Logo } from "../../../../assets/svgAssets";
+import { useMutation } from "@tanstack/react-query";
+import { errorToast } from "../../../../components/ui/toast";
+import { forgotPassword } from "../../../../api/auth";
+import { successToast } from "../../../../components/ui/toast";
+import { AxiosError } from "axios";
+
+interface ErrorResponse {
+  message: string;
+}
 
 export const ForgotPassword = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<ForgotPasswordSchema>({
     defaultValues: {
       email: "",
@@ -21,8 +31,23 @@ export const ForgotPassword = () => {
     resolver: zodResolver(forgotPasswordSchema),
   });
 
+  const { mutate: forgotPasswordMutation, isPending } = useMutation({
+    mutationFn: forgotPassword,
+    onSuccess: (data) => {
+      successToast("Success", data.message);
+      reset();
+    },
+    onError: (err: AxiosError<ErrorResponse>) => {
+      console.log(err);
+      errorToast(
+        "Error",
+        err?.response?.data?.message || "Failed to register user"
+      );
+    },
+  });
+
   const onSubmit = (data: ForgotPasswordSchema) => {
-    console.log(data);
+    forgotPasswordMutation(data);
   };
 
   useEffect(() => {
@@ -56,7 +81,11 @@ export const ForgotPassword = () => {
             error={errors.email?.message}
           />
 
-          <Button type="submit" label="Send Reset Link" />
+          <Button
+            type="submit"
+            label={isPending ? "Sending reset link..." : "Send Reset Link"}
+            disabled={isPending}
+          />
         </form>
       </div>
     </main>

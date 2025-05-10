@@ -6,7 +6,7 @@ import {
 } from "../../../../../assets/svgAssets";
 import { Button } from "../../../../../components";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { NoteSchema, noteSchema } from "../../../../../schema/noteSchema";
+import { NoteSchema, noteSchema } from "../../../../../lib/validations";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 

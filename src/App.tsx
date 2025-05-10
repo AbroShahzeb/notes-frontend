@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { AppRouter } from "./routes/AppRouter";
+import { Toaster } from "sonner";
 
 function App() {
   useEffect(() => {
@@ -16,6 +17,7 @@ function App() {
   }, []);
   return (
     <>
+      <Toaster />
       <AppRouter />
     </>
   );

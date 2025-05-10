@@ -11,6 +11,8 @@ export default defineConfig({
       "https://www.notes.shahzebabro.com",
       "notes.shahzebabro.com",
       "www.notes.shahzebabro.com",
+      "localhost",
+      "127.0.0.1",
     ],
     port: 3002,
   },

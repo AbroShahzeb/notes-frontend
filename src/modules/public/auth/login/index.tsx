@@ -6,14 +6,23 @@ import {
   Logo,
 } from "../../../../assets/svgAssets";
 import { Input } from "../../../../components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { loginSchema, LoginSchema } from "../../../../schema/loginSchema";
+import { loginSchema, LoginSchema } from "../../../../lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../../../../components/button";
 import ROUTES from "../../../../constants/routes";
+import { useMutation } from "@tanstack/react-query";
+import { login } from "../../../../api/auth";
+import { errorToast } from "../../../../components/ui/toast";
+import { AxiosError } from "axios";
+
+interface ErrorResponse {
+  message: string;
+}
 
 export const Login = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -26,8 +35,21 @@ export const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  const { mutate: loginUser, isPending } = useMutation({
+    mutationFn: login,
+    onSuccess: (data) => {
+      console.log("Data", data);
+      localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("user", JSON.stringify(data.data.user));
+      navigate(ROUTES.HOME);
+    },
+    onError: (err: AxiosError<ErrorResponse>) => {
+      errorToast("Error", err?.response?.data?.message || "An error occurred");
+    },
+  });
+
   const onSubmit = (data: LoginSchema) => {
-    console.log(data);
+    loginUser(data);
   };
 
   useEffect(() => {
@@ -84,7 +106,11 @@ export const Login = () => {
             error={errors.password?.message}
             registerProps={register("password")}
           />
-          <Button type="submit" label="Login" />
+          <Button
+            type="submit"
+            label={isPending ? "Logging in..." : "Login"}
+            disabled={isPending}
+          />
         </form>
 
         <div className="mt-4 pt-6 border-t border-neutral-200 dark:border-neutral-800 flex flex-col items-center gap-4">

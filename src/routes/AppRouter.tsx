@@ -16,12 +16,20 @@ import {
   PasswordSettings,
   ThemeSettings,
 } from "../modules/private/settings/components";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 export const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={ROUTES.HOME} element={<DashborardLayout />}>
+        <Route
+          path={ROUTES.HOME}
+          element={
+            <ProtectedRoute>
+              <DashborardLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route path={ROUTES.HOME} element={<Notes />} />
           <Route
             path={ROUTES.CREATE_NOTE}
