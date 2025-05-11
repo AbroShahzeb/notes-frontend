@@ -20,7 +20,7 @@ export const CreateNote = ({ isEdit = false }: Props) => {
     enabled: !!id,
   });
 
-  console.log("try again");
+  console.log("try again 2");
 
   const note = data?.data;
 
