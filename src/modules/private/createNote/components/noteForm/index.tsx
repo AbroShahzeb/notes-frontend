@@ -48,7 +48,7 @@ export const NoteForm = ({
       reset({
         title: note?.title,
         content: note?.content,
-        tags: note?.tags.join(", "),
+        tags: note?.tags.map((tag) => tag.name).join(", "),
       });
     }
   }, [note, reset, isEdit]);
