@@ -59,3 +59,33 @@ export const updateNote = async (note: {
     throw error;
   }
 };
+
+export const archiveNote = async (id: string) => {
+  try {
+    const response = await axios.patch(
+      `${baseUrl}/notes/${id}`,
+      {
+        isArchived: true,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const deleteNote = async (id: string) => {
+  try {
+    const response = await axios.delete(`${baseUrl}/notes/${id}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

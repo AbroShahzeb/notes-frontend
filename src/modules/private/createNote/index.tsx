@@ -48,8 +48,8 @@ export const CreateNote = ({ isEdit = false }: Props) => {
         <div className="px-4 hidden lg:block text-primary-text lg:w-[291px] lg:pl-8 lg:h-full pt-5 lg:border-l border-neutral-200 dark:border-neutral-800">
           {id && (
             <div className="flex flex-col gap-3">
-              <ArchiveNoteDialog />
-              <DeleteNoteDialog />
+              <ArchiveNoteDialog noteId={id} />
+              <DeleteNoteDialog noteId={id} />
             </div>
           )}
         </div>

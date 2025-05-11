@@ -1,3 +1,4 @@
+import { archiveNote } from "@/api/notes";
 import { ArchiveIcon } from "@/assets/svgAssets";
 import { Button } from "@/components";
 import {
@@ -6,8 +7,26 @@ import {
   DialogContent,
   DialogClose,
 } from "@/components/ui/dialog";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { successToast } from "@/components/ui/toast";
+import ROUTES from "@/constants/routes";
+import { useNavigate } from "react-router-dom";
 
-export const ArchiveNoteDialog = () => {
+export const ArchiveNoteDialog = ({ noteId }: { noteId: string }) => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { mutate: archiveNoteMutation, isPending } = useMutation({
+    mutationFn: () => archiveNote(noteId),
+    onSuccess: () => {
+      successToast("", "Note archived successfully", {
+        label: "Archive Note",
+        onClick: () => navigate(ROUTES.ARCHIVE),
+      });
+      queryClient.invalidateQueries({ queryKey: ["notes"] });
+      navigate(ROUTES.HOME);
+    },
+  });
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -18,7 +37,11 @@ export const ArchiveNoteDialog = () => {
           <span>Archive Note</span>
         </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md gap-0 bg-white dark:bg-neutral-700 text-primary-text border border-neutral-200 dark:border-neutral-600 shadow-none p-0">
+      <DialogContent
+        forceMount
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        className="sm:max-w-md gap-0 bg-white dark:bg-neutral-700 text-primary-text border border-neutral-200 dark:border-neutral-600 shadow-none p-0"
+      >
         <div className="flex items-start gap-4  p-4">
           <div className="size-10 rounded-md bg-neutral-100 dark:bg-neutral-600 flex items-center justify-center flex-shrink-0">
             <ArchiveIcon />
@@ -36,7 +59,10 @@ export const ArchiveNoteDialog = () => {
           <DialogClose asChild>
             <Button variant="secondary" label="Cancel" />
           </DialogClose>
-          <Button label="Archive Note" />
+          <Button
+            label={isPending ? "Archiving..." : "Archive Note"}
+            onClick={() => archiveNoteMutation()}
+          />
         </div>
       </DialogContent>
     </Dialog>
