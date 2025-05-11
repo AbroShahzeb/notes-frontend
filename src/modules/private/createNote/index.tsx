@@ -14,8 +14,6 @@ export const CreateNote = ({ isEdit = false }: Props) => {
   const { id } = useParams();
   const archived = useLocation()?.state?.archived;
 
-  console.log("Archived from useLocation", archived);
-
   const { data, isLoading } = useQuery({
     queryKey: ["note", id],
     queryFn: () => getNoteById(id!),
