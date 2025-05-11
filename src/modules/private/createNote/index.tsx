@@ -20,6 +20,8 @@ export const CreateNote = ({ isEdit = false }: Props) => {
     enabled: !!id,
   });
 
+  console.log("try again");
+
   const note = data?.data;
 
   return (
