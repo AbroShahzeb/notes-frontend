@@ -21,6 +21,9 @@ import { SystemThemeIcon } from "./SystemThemeIcon";
 import { PlusIcon } from "./PlusIcon";
 import { ClockIcon } from "./ClockIcon";
 import { ArrowLeftIcon } from "./ArrowLeftIcon";
+import { IconCross } from "./IconCross";
+import { IconCheckCircle } from "./IconCheckCircle";
+import { IconDelete } from "./IconDelete";
 
 export {
   Logo,
@@ -46,4 +49,7 @@ export {
   PlusIcon,
   ClockIcon,
   ArrowLeftIcon,
+  IconCross,
+  IconCheckCircle,
+  IconDelete,
 };

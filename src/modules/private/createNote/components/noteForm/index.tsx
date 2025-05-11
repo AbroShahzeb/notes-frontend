@@ -9,13 +9,31 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { NoteSchema, noteSchema } from "../../../../../lib/validations";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { createNote, updateNote } from "../../../../../api/notes";
+import { useQueryClient } from "@tanstack/react-query";
+import { successToast } from "../../../../../components/ui/toast";
 
+export interface INote {
+  _id: string;
+  title: string;
+  content: string;
+  tags: string[];
+  updatedAt?: string;
+  isArchived: boolean;
+}
 interface Props {
   isEdit?: boolean;
-  note?: Note | null;
+  note?: INote | null;
+  archived?: boolean;
 }
 
-export const NoteForm = ({ isEdit = false, note = null }: Props) => {
+export const NoteForm = ({
+  isEdit = false,
+  note = null,
+  archived = false,
+}: Props) => {
+  const queryClient = useQueryClient();
   const { register, handleSubmit, reset } = useForm<NoteSchema>({
     defaultValues: {
       title: "Enter a title...",
@@ -26,18 +44,48 @@ export const NoteForm = ({ isEdit = false, note = null }: Props) => {
   });
 
   useEffect(() => {
-    console.log("isedit", isEdit, "note", note);
     if (isEdit && note) {
       reset({
         title: note?.title,
         content: note?.content,
-        tags: note?.tags.join(", "),
+        tags: note?.tags.map((tag) => tag.name).join(", "),
       });
     }
   }, [note, reset, isEdit]);
 
+  const { mutate: createNoteMutation, isPending } = useMutation({
+    mutationFn: createNote,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["notes"] });
+      successToast("", "Note saved successfully");
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+  const { mutate: updateNoteMutation, isPending: isUpdating } = useMutation({
+    mutationFn: updateNote,
+    onSuccess: (data) => {
+      console.log("Data", data);
+      queryClient.invalidateQueries({ queryKey: ["notes"] });
+    },
+  });
+
   const onSubmit = (data: NoteSchema) => {
-    console.log("Data", data);
+    const noteData = {
+      _id: isEdit ? note?._id : undefined,
+      title: data.title,
+      content: data.content,
+      tags: data.tags.split(","),
+      isArchived: archived,
+    };
+
+    if (isEdit) {
+      updateNoteMutation(noteData as INote);
+    } else {
+      createNoteMutation(noteData as INote);
+    }
   };
 
   const navigate = useNavigate();
@@ -92,7 +140,11 @@ export const NoteForm = ({ isEdit = false, note = null }: Props) => {
             <ClockIcon width={16} height={16} />
             <span>Last Edited</span>
           </div>
-          <p className="text-secondary-text text-preset-4">Not yet saved</p>
+          <p className="text-secondary-text text-preset-4">
+            {note?.updatedAt
+              ? new Date(note.updatedAt).toLocaleDateString()
+              : "Not yet saved"}
+          </p>
         </div>
       </div>
 
@@ -111,7 +163,11 @@ export const NoteForm = ({ isEdit = false, note = null }: Props) => {
       <div className="h-[1px] w-full bg-neutral-200 dark:bg-neutral-800 hidden lg:block"></div>
 
       <div className="lg:flex items-center gap-4 hidden">
-        <Button type="submit" label="Save Note" />
+        <Button
+          type="submit"
+          label={isPending || isUpdating ? "Saving..." : "Save Note"}
+          disabled={isPending || isUpdating}
+        />
         <Button variant="secondary" label="Cancel" />
       </div>
     </form>

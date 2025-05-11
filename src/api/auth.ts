@@ -69,9 +69,13 @@ export const resetPassword = async (
 
 export const getCurrentUser = async () => {
   try {
-    const response = await axios.get(`${baseUrl}/auth/me`, {
-      withCredentials: true,
-    });
+    const response = await axios.get(
+      `${baseUrl}/auth/me`,
+
+      {
+        withCredentials: true,
+      }
+    );
     return response.data;
   } catch (error) {
     console.error(error);

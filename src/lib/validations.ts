@@ -35,7 +35,10 @@ export type LoginSchema = z.infer<typeof loginSchema>;
 export const noteSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
   content: z.string().min(1, { message: "Notes content is required" }),
-  tags: z.string().min(1, { message: "Tag is required" }),
+  tags: z
+    .string()
+    .min(1, { message: "Tag is required" })
+    .or(z.array(z.object({ _id: z.string(), name: z.string() }))),
 });
 
 export type NoteSchema = z.infer<typeof noteSchema>;
