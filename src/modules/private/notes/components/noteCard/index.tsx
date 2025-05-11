@@ -26,7 +26,7 @@ export const NoteCard = ({ id, title, tags, updatedAt }: Props) => {
     >
       <h3 className="text-preset-3">{title}</h3>
       <div className="flex flex-wrap items-center gap-1">
-        {tags.map((tag: ITag) => (
+        {tags?.map((tag: ITag) => (
           <Tag tag={tag.name} key={tag._id} />
         ))}
       </div>
