@@ -48,7 +48,7 @@ export const NoteForm = ({
       reset({
         title: note?.title,
         content: note?.content,
-        tags: note?.tags.map((tag) => tag.name).join(", "),
+        tags: note?.tags.join(", "),
       });
     }
   }, [note, reset, isEdit]);
@@ -77,7 +77,10 @@ export const NoteForm = ({
       _id: isEdit ? note?._id : undefined,
       title: data.title,
       content: data.content,
-      tags: data.tags.split(","),
+      tags:
+        typeof data.tags === "string"
+          ? data.tags.split(",").map((tag) => tag.trim())
+          : data.tags.map((tag) => tag.name),
       isArchived: archived,
     };
 
